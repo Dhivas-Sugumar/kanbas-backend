@@ -1,0 +1,17 @@
+{
+  "name": "kanbas-backend",
+  "version": "1.0.0",
+  "description": "Node.js HTTP web server for the Kanbas application ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node App.js"
+  },
+  "author": "Dhivas Sugumar",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
