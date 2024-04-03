@@ -32,14 +32,14 @@ const Lab5 = (app) => {
     res.json(assignment);
   });
   app.get('/a5/assignment/score/:newScore', (req, res) => {
-    const { newName } = req.params;
-    module.name = newName;
-    res.json(module);
+    const { newScore } = req.params;
+    assignment.score = newScore;
+    res.json(assignment);
   });
-  app.get('/a5/assignment/completed', (req, res) => {
-    const { newName } = req.params;
-    module.name = newName;
-    res.json(module);
+  app.get('/a5/assignment/completed/:newCompleted', (req, res) => {
+    const { newCompleted } = req.params;
+    assignment.completed = newCompleted;
+    res.json(assignment);
   });
   app.get('/a5/module', (req, res) => {
     res.json(module);
@@ -50,6 +50,11 @@ const Lab5 = (app) => {
   app.get('/a5/module/name/:newName', (req, res) => {
     const { newName } = req.params;
     module.name = newName;
+    res.json(module);
+  });
+  app.get('/a5/module/description/:newDescription', (req, res) => {
+    const { newDescription } = req.params;
+    module.description = newDescription;
     res.json(module);
   });
   app.get("/a5/welcome", (req, res) => {
@@ -109,6 +114,20 @@ const Lab5 = (app) => {
     const { id, title } = req.params;
     const todo = todos.find((t) => t.id === parseInt(id));
     todo.title = title;
+    res.json(todos);
+  });
+
+  app.get("/a5/todos/:id/completed/:completed", (req, res) => {
+    const { id, completed } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.completed = completed;
+    res.json(todos);
+  });
+
+  app.get("/a5/todos/:id/description/:description", (req, res) => {
+    const { id, description } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.description = description;
     res.json(todos);
   });
 
