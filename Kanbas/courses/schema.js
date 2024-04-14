@@ -8,3 +8,5 @@ const courseSchema = new mongoose.Schema({
     endDate: { type: Date, required: true },
     image: { type: String, required: true }
 }, {collection: "courses"});
+
+export default courseSchema;
