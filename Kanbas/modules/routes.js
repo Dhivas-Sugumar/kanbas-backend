@@ -1,35 +1,31 @@
 import * as dao from "./dao.js";
 
 export default function ModuleRoutes(app) {
-    const createModule = async (req, res) => {
-        const module = await dao.createModule(req.body);
-        res.json(module);
-    };
+  app.get("/api/courses/:cid/modules", async (req, res) => {
+      const { cid } = req.params;
+      const modules = await dao.findModulesByCourseId(cid);
+      res.json(modules);
+  });
 
-    const deleteModule = async (req, res) => {
-        const status = await dao.deleteModule(req.params.moduleId);
-        res.json(status);
-    };
+  app.post("/api/courses/:cid/modules", async (req, res) => {
+      const { cid } = req.params;
+      const moduleData = {
+          ...req.body,
+          course: cid
+      };
+      const newModule = await dao.createModule(moduleData);
+      res.json(newModule);
+  });
 
-    const findAllModules = async (req, res) => {
-        const modules = await dao.findAllModules();
-        res.json(modules);
-    };
+  app.delete("/api/modules/:mid", async (req, res) => {
+      const { mid } = req.params;
+      await dao.deleteModule(mid);
+      res.sendStatus(204);
+  });
 
-    const findModuleById = async (req, res) => {
-        const module = await dao.findModuleById(req.params.moduleId);
-        res.json(module);
-    };
-
-    const updateModule = async (req, res) => {
-        const { moduleId } = req.params;
-        const status = await dao.updateModule(moduleId, req.body);
-        res.json(status);
-    };
-
-    app.post("/api/modules", createModule);
-    app.get("/api/modules", findAllModules);
-    app.get("/api/modules/:moduleId", findModuleById);
-    app.put("/api/modules/:moduleId", updateModule);
-    app.delete("/api/modules/:moduleId", deleteModule);
+  app.put("/api/modules/:mid", async (req, res) => {
+      const { mid } = req.params;
+      await dao.updateModule(mid, req.body);
+      res.sendStatus(204);
+  });
 }
