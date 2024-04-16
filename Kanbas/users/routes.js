@@ -45,6 +45,8 @@ const findAllUsers = async (req, res) => {
     const currentUser = await dao.findUserByCredentials(username, password);
     if (currentUser) {
       req.session["currentUser"] = currentUser;
+      console.log(req.session)
+      console.log(currentUser)
       res.json(currentUser);
     } else {
       res.sendStatus(401);
@@ -57,6 +59,7 @@ const findAllUsers = async (req, res) => {
   };
 
   const profile = (req, res) => {
+    console.log(req.session)
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
