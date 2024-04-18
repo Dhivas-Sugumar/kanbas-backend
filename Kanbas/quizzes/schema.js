@@ -17,6 +17,7 @@ const quizSchema = new mongoose.Schema({
     dueDate: { type: Date, required: true },
     availableDate: { type: Date, required: true },
     untilDate: { type: Date, required: true },
+    published: { type: Boolean, default: false },
     course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true } // Reference to the Course model
 }, { collection: "quizzes" });
 
