@@ -42,7 +42,7 @@ export default function QuizRoutes(app) {
        try{
         const { qid } = req.params;
         const quiz = await dao.updateQuiz(qid, req.body);
-        res.send(204).json(quiz)
+        res.status(204).json(quiz)
        }
        catch(err){
         res.status(400).json({message: err.message});
