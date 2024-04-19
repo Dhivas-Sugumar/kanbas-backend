@@ -8,7 +8,7 @@ export default function QuizRoutes(app) {
         res.json(quizzes);
         }
         catch(err){
-            res.send(400).json({error: err.message});
+            res.status(400).json({message: err.message});
         }
     });
 
@@ -23,7 +23,7 @@ export default function QuizRoutes(app) {
         res.json(newQuiz);
         }
         catch(err){
-            res.send(400).json({error: err.message});
+            res.status(400).json({message: err.message});
         }
     });
 
@@ -34,29 +34,29 @@ export default function QuizRoutes(app) {
         res.sendStatus(204);
         }
         catch(err){
-            res.send(400).json({error: err.message});
+            res.status(400).json({message: err.message});
         }
     });
 
     app.put("/api/quizzes/:qid", async (req, res) => {
        try{
         const { qid } = req.params;
-        await dao.updateQuiz(qid, req.body);
-        res.sendStatus(204);
+        const quiz = await dao.updateQuiz(qid, req.body);
+        res.send(204).json(quiz)
        }
        catch(err){
-        res.send(400).json({error: err.message});
+        res.status(400).json({message: err.message});
        }
     });
 
     app.get("/api/quizzes/:quizId", async (req, res) => {
         try{
             const { quizId } = req.params;
-        const quiz = await dao.findQuizById(quizId);
-        res.json(quiz);
+            const quiz = await dao.findQuizById(quizId);
+            res.json(quiz);
         }
         catch(err){
-            res.send(400).json({error: err.message});
+            res.status(400).json({message: err.message});
         }
     });
 
