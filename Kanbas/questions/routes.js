@@ -5,9 +5,7 @@ export default function QuestionRoutes(app) {
         try {
             const {quizId} = req.params
             const question = req.body;
-            question = {...question, quizId}
-            const newQuestion = await dao.createQuestion(question);
-            console.log(newQuestion)
+            const newQuestion = await dao.createQuestion({...question, quizId: quizId});
             res.json(newQuestion);
         } catch (err) {
             res.status(400).json({ message: err.message });
