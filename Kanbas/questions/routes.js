@@ -5,7 +5,7 @@ export default function QuestionRoutes(app) {
         try {
             const {quizId} = req.params
             const question = req.body;
-            question.quizId = quizId
+            question = {...question, quizId}
             const newQuestion = await dao.createQuestion(question);
             console.log(newQuestion)
             res.json(newQuestion);
