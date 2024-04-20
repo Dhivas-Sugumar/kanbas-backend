@@ -3,8 +3,11 @@ import * as dao from "./dao.js";
 export default function QuestionRoutes(app) {
     const createQuestion = async (req, res) => {
         try {
+            const {quizId} = req.params
             const question = req.body;
+            question.quizId = quizId
             const newQuestion = await dao.createQuestion(question);
+            console.log(newQuestion)
             res.json(newQuestion);
         } catch (err) {
             res.status(400).json({ message: err.message });
@@ -42,7 +45,7 @@ export default function QuestionRoutes(app) {
         }
     }
 
-    app.post("/api/questions", createQuestion);
+    app.post("/api/questions/:quizId", createQuestion);
     app.get("/api/questions/:quizId", findQuestionsByQuizId);
     app.put("/api/questions/:questionId", updateQuestion);
     app.delete("/api/questions/:questionId", deleteQuestion);
