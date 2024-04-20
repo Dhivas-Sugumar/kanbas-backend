@@ -41,6 +41,6 @@ CourseRoutes(app);
 ModuleRoutes(app);
 UserRoutes(app);
 QuizRoutes(app);
-QuestionRoutes
+QuestionRoutes(app);
 mongoose.connect(CONNECTION_STRING);
 app.listen(process.env.PORT || 4000);
