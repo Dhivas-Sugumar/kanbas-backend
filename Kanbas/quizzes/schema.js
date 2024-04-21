@@ -4,7 +4,8 @@ const quizSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     quizType: { type: String, enum: ["Graded Quiz", "Practice Quiz", "Graded Survey", "Ungraded Survey"], default: "Graded Quiz" },
-    points: { type: Number, required: true },
+    points: { type: Number, required: true, default: 0 },
+    numberOfQuestions: { type: Number, required: true, default: 0 },
     assignmentGroup: { type: String, enum: ["Quizzes", "Exams", "Assignments", "Project"], default: "Quizzes" },
     shuffleAnswers: { type: Boolean, default: true },
     timeLimit: { type: Number, default: 20 }, // in minutes
