@@ -43,6 +43,16 @@ export default function QuestionRoutes(app) {
         }
     }
 
+    const getAllQuestions = async (req, res) => {
+        try {
+            const questions = await dao.findAllQuestions();
+            res.json(questions);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+
+    app.get("/api/questions", getAllQuestions);
     app.post("/api/questions/:quizId", createQuestion);
     app.get("/api/questions/:quizId", findQuestionsByQuizId);
     app.put("/api/questions/:questionId", updateQuestion);
