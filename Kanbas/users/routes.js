@@ -89,7 +89,6 @@ const findAllUsers = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
-  
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);
