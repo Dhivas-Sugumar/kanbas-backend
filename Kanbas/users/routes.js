@@ -25,49 +25,70 @@ const findAllUsers = async (req, res) => {
     res.json(user);
   };
   const updateUser = async (req, res) => {
-    const { userId } = req.params;
-    const status = await dao.updateUser(userId, req.body);
-    currentUser = await dao.findUserById(userId);
-    res.json(status);
+    try {
+      const { userId } = req.params;
+      const status = await dao.updateUser(userId, req.body);
+      const currentUser = await dao.findUserById(userId);
+      res.json(status);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   };
+  
   const signup = async (req, res) => {
-    const user = await dao.findUserByUsername(req.body.username);
-    if (user) {
-      res.status(400).json(
-        { message: "Username already taken" });
-    }
-    const currentUser = await dao.createUser(req.body);
-    req.session["currentUser"] = currentUser;
-    res.json(currentUser);
-  };
-  const signin = async (req, res) => {
-    const { username, password } = req.body;
-    const currentUser = await dao.findUserByCredentials(username, password);
-    if (currentUser) {
+    try {
+      const user = await dao.findUserByUsername(req.body.username);
+      if (user) {
+        res.status(400).json({ message: "Username already taken" });
+        return;
+      }
+      const currentUser = await dao.createUser(req.body);
       req.session["currentUser"] = currentUser;
-      console.log(req.session)
-      console.log(currentUser)
       res.json(currentUser);
-    } else {
-      res.sendStatus(401);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   };
-
+  
+  const signin = async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const currentUser = await dao.findUserByCredentials(username, password);
+      if (currentUser) {
+        req.session["currentUser"] = currentUser;
+        console.log(req.session)
+        console.log(currentUser)
+        res.json(currentUser);
+      } else {
+        res.sendStatus(401);
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
   const signout = (req, res) => {
-    req.session.destroy();
-    res.sendStatus(200);
-  };
-
-  const profile = (req, res) => {
-    console.log(req.session)
-    const currentUser = req.session["currentUser"];
-    if (!currentUser) {
-      res.sendStatus(401);
-      return;
+    try {
+      req.session.destroy();
+      res.sendStatus(200);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-    res.json(currentUser);
   };
-
+  
+  const profile = (req, res) => {
+    try {
+      console.log(req.session)
+      const currentUser = req.session["currentUser"];
+      if (!currentUser) {
+        res.sendStatus(401);
+        return;
+      }
+      res.json(currentUser);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);
